@@ -80,6 +80,24 @@ export default async function SectionPage({ params }: { params: Promise<{ locale
         <div className="max-w-3xl">
           <h2 className="display text-3xl md:text-4xl">{t.overview}</h2>
           <p className="mt-6 text-sm leading-8 text-slate-600">{section.detail[locale]}</p>
+          {section.staff && (
+            <div className="mt-10">
+              <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+                <div><p className="eyebrow">PEOPLE & CONTACTS</p><h3 className="display mt-3 text-2xl md:text-3xl">{t.teamHeading}</h3></div>
+                <p className="text-xs text-slate-400">{section.staff.length} listed staff members</p>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {section.staff.map((person) => (
+                  <article key={person.name} className="rounded-xl border border-slate-200 bg-white p-5">
+                    <h4 className="text-sm font-semibold text-[#10233f]">{person.name}</h4>
+                    <p className="mt-2 text-[10px] font-bold tracking-wide text-[#a17b40]">{person.title[locale]}</p>
+                    {person.email && <a href={"mailto:" + person.email} className="focus mt-3 inline-block break-all text-xs text-slate-500 underline decoration-[#c8a66a]/60 underline-offset-4 hover:text-[#10233f]">{person.email}</a>}
+                  </article>
+                ))}
+              </div>
+              <p className="mt-3 text-[10px] leading-5 text-slate-400">Source: TSUE official staff directory. Roles and contacts may change; confirm before contacting.</p>
+            </div>
+          )}
           <div className="mt-12">
             <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
               <div><p className="eyebrow">SOURCE DIRECTORY</p><h3 className="display mt-3 text-2xl md:text-3xl">{t.sourceHeading}</h3></div>

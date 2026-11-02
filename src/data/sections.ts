@@ -1,7 +1,7 @@
 export type Locale = "uz" | "en" | "ru";
 type Localized = Record<Locale, string>;
 export type SourceItem = { title: Localized; date: string; description: Localized; url: string; status?: "archive" | "upcoming" | "reference" };
-export type PortalSection = {
+export type StaffItem = { name: string; title: Localized; email?: string };\nexport type PortalSection = {
   slug: string;
   number: string;
   title: Localized;
@@ -24,6 +24,17 @@ export const sections: PortalSection[] = [
     en: "TSUE's official website maintains a dedicated page for International Relations Department staff. It lists the department head, section leadership, managers and contact details. Since staff and contact information may change, confirm the latest details on the official page.",
     ru: "На официальном сайте ТГЭУ есть отдельная страница сотрудников Департамента международных связей. На ней указаны руководитель департамента, начальник отдела, менеджеры и контактные данные. Состав сотрудников и контакты могут меняться — проверяйте актуальную информацию на официальной странице."
   },
+  staff: [
+    { name: "Umirzoqov Ja’sur Artiqboy o‘g‘li", title: { uz: "Departament rahbari", en: "Head of Department", ru: "Руководитель департамента" }, email: "jasur_umirzokov@tsue.uz" },
+    { name: "Akbarov Bexzodxon Ulug‘bekovich", title: { uz: "Bo‘lim boshlig‘i", en: "Section Head", ru: "Начальник отдела" }, email: "b.akbarov@tsue.uz" },
+    { name: "Nosirov Jahongir Jamoliddin o‘g‘li", title: { uz: "Bo‘lim menejeri", en: "Department Manager", ru: "Менеджер департамента" }, email: "j.nosirov@tsue.uz" },
+    { name: "Tursunova Nafisa Olimjon qizi", title: { uz: "Bo‘lim menejeri", en: "Department Manager", ru: "Менеджер департамента" }, email: "n.tursunova@tsue.uz" },
+    { name: "Muxtorov Ilhom Avazjon o‘g‘li", title: { uz: "Bo‘lim menejeri", en: "Department Manager", ru: "Менеджер департамента" }, email: "i.mukhtorov@tsue.uz" },
+    { name: "Sodiqov Suxrobjon Sanjar o‘g‘li", title: { uz: "Bo‘lim menejeri", en: "Department Manager", ru: "Менеджер департамента" }, email: "s.sodiqov@tsue.uz" },
+    { name: "Fazliddinova Shahruza Sarvar qizi", title: { uz: "Bo‘lim menejeri", en: "Department Manager", ru: "Менеджер департамента" }, email: "sh.fazliddinova@tsue.uz" },
+    { name: "Qurbonaliyev Abdufattoh Shuhrat o‘g‘li", title: { uz: "Bo‘lim menejeri", en: "Department Manager", ru: "Менеджер департамента" }, email: "K_Abdufattoh@tsue.uz" },
+    { name: "Ahmedova Tamila Baxtiyarovna", title: { uz: "Bo‘lim menejeri", en: "Department Manager", ru: "Менеджер департамента" } }
+  ],
   sources: [{
     title: { uz: "Xalqaro aloqalar departamenti xodimlari", en: "International Relations Department staff", ru: "Сотрудники Департамента международных связей" },
     date: "Official directory", description: {
@@ -53,6 +64,16 @@ export const sections: PortalSection[] = [
     },
     url: "https://tsue.uz/oz/news/universitetda-xorijiy-grantlarni-jalb-qilish-boyicha-xalqaro-konferensiyasi-bolib-otdi",
     status: "archive"
+  }, {
+    title: { uz: "TDIU xalqaro barqarorlik va Erasmus+ loyihalari portfeli", en: "TSUE international sustainability and Erasmus+ project portfolio", ru: "Портфель международных проектов устойчивого развития и Erasmus+ ТГЭУ" },
+    date: "2025 project portfolio",
+    description: {
+      uz: "TDIUning rasmiy SDG portalidagi Erasmus+ Jean Monnet, Horizon Europe, ilmiy hamkorlik va mobillik loyihalari haqida ma’lumotlar.",
+      en: "The university's official SDG portal outlines Erasmus+ Jean Monnet, Horizon Europe, research cooperation and mobility projects.",
+      ru: "На официальном SDG-портале университета представлены проекты Erasmus+ Jean Monnet, Horizon Europe, научное сотрудничество и мобильность."
+    },
+    url: "https://sustainability.tsue.uz/international-sustainability-collaboration-programs-and-erasmus-project-portfolo/",
+    status: "reference"
   }]
 },
 {
@@ -255,7 +276,7 @@ export const copy = {
     aboutText: "O‘nta xalqaro yo‘nalish yagona, sodda va ko‘p tilli tajribada jamlangan. Har bir bo‘lim o‘z mavzusiga mos vizual ko‘rinish, tekshirilgan materiallar va asl manbaga havolalar bilan taqdim etiladi.",
     areaTitle: "Barcha yo‘nalishlar", areaText: "Kerakli yo‘nalishni tanlang. Bo‘limlar o‘z mazmuni va vizual uslubiga ega.",
     details: "Bo‘limni ochish", back: "Barcha yo‘nalishlar",
-    overview: "Yo‘nalish haqida", sourceHeading: "Rasmiy manbalar va materiallar",
+    overview: "Yo‘nalish haqida", teamHeading: "Departament jamoasi", sourceHeading: "Rasmiy manbalar va materiallar",
     sourceText: "Havolalar universitetning rasmiy sahifalari yoki rasmiy tadbir saytlariga olib boradi. Sana va talablar bo‘yicha eng so‘nggi e’lonni tekshiring.",
     openSource: "Rasmiy manbani ochish", archive: "ARXIV", upcoming: "KELGUSI TADBIR", reference: "RASMIY MA’LUMOT",
     note: "Eslatma: bu mustaqil konsept-portal, TDIUning rasmiy sayti emas. Tashkilot nomidan rasmiy bayonot bermaydi.",
@@ -270,7 +291,7 @@ export const copy = {
     aboutText: "Ten international areas are brought together in one clear, multilingual experience. Each section has a topic-specific visual identity, sourced material and links to original official information.",
     areaTitle: "Explore all sections", areaText: "Choose an area to explore. Each section has its own content and visual style.",
     details: "Explore section", back: "All sections",
-    overview: "About this area", sourceHeading: "Official sources and materials",
+    overview: "About this area", teamHeading: "Department team", sourceHeading: "Official sources and materials",
     sourceText: "Links lead to official university pages or official event websites. Check the latest announcement for current dates and requirements.",
     openSource: "Open official source", archive: "ARCHIVE", upcoming: "UPCOMING EVENT", reference: "OFFICIAL REFERENCE",
     note: "Note: this is an independent concept portal, not the official TSUE website. It does not make statements on behalf of the university.",
@@ -285,7 +306,7 @@ export const copy = {
     aboutText: "Десять международных направлений объединены в понятном многоязычном интерфейсе. Каждый раздел имеет собственный визуальный стиль, материалы с указанием источников и ссылки на официальную информацию.",
     areaTitle: "Все направления", areaText: "Выберите интересующее направление. У каждого раздела свой контент и визуальный стиль.",
     details: "Открыть раздел", back: "Все разделы",
-    overview: "О направлении", sourceHeading: "Официальные источники и материалы",
+    overview: "О направлении", teamHeading: "Команда департамента", sourceHeading: "Официальные источники и материалы",
     sourceText: "Ссылки ведут на официальные страницы университета или сайты официальных мероприятий. Проверяйте последние объявления и актуальные требования.",
     openSource: "Открыть официальный источник", archive: "АРХИВ", upcoming: "ПРЕДСТОЯЩЕЕ СОБЫТИЕ", reference: "ОФИЦИАЛЬНАЯ ИНФОРМАЦИЯ",
     note: "Примечание: это независимый концепт-портал, а не официальный сайт ТГЭУ. Он не выступает от имени университета.",
