@@ -1,16 +1,24 @@
 # TSUE Internationalization Portal
 
-Independent concept and demonstration portal for internationalization information. This is not the official TSUE website and is not endorsed by the university.
+An independent, multilingual concept portal for internationalization information at Tashkent State University of Economics (TSUE).
+
+> This is a demonstration project, not the official TSUE website and not endorsed by the university.
 
 ## Stack
-- Next.js App Router + TypeScript
+- Next.js 15 App Router
+- React 19 and TypeScript
 - Tailwind CSS
-- Uzbek, English and Russian content architecture
+- Uzbek, English and Russian routes: /uz, /en, /ru
+- Render deployment configuration
 
-## Development
+## Run locally
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Official source information must be verified before publication. Do not invent institutional statistics, partnerships, staff responsibilities or programme details.
+## Content integrity
+Section descriptions are structural placeholders. Staff details, statistics, partnerships, memorandums, dates and programme rules must be verified against official university sources before publication.
+
+## Deploy
+The repository includes render.yaml for Render Blueprint deployment in Frankfurt.

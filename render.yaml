@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: tsue-internationalization
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /uz
+    autoDeploy: true
