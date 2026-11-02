@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import {notFound} from "next/navigation";
 import {Header} from "@/components/header";
 import {Footer} from "@/components/footer";
@@ -31,9 +32,84 @@ function SectionVisual({slug}:{slug:string}) {
   }
 }
 
-export default async function SectionPage({params}:{params:Promise<{locale:string;slug:string}>}) {
- const p=await params;if(!locales.includes(p.locale as Locale))notFound();const locale=p.locale as Locale;const section=sections.find(s=>s.slug===p.slug);if(!section)notFound();const t=copy[locale];
- return <main><div className="bg-[#091b31] text-white"><Header locale={locale}/><section className="hero-grid relative overflow-hidden py-20 md:py-28"><div className="pointer-events-none absolute -right-32 top-0 h-[480px] w-[480px] rounded-full border border-[#d7b77d]/20"/><div className="shell relative"><Link href={"/"+locale+"#sections"} className="focus text-xs text-white/55 hover:text-white">← {t.back}</Link><p className="eyebrow mt-14">INTERNATIONAL AREA · {section.number}</p><h1 className="display mt-6 max-w-4xl text-5xl leading-[1.05] md:text-7xl">{section.title[locale]}</h1><p className="mt-7 max-w-2xl text-sm leading-8 text-white/60 md:text-base">{section.summary[locale]}</p></div></section></div>
- <section className="shell py-12 md:py-16"><SectionVisual slug={section.slug}/></section>
- <section className="shell grid gap-12 pb-20 md:grid-cols-[.65fr_1.35fr] md:pb-28"><div><p className="eyebrow">{section.category[locale]}</p><p className="display mt-4 text-7xl text-[#c8a66a]">{section.number}</p></div><div className="max-w-3xl"><h2 className="display text-3xl md:text-4xl">{t.status}</h2><p className="mt-6 text-sm leading-8 text-slate-600">{section.detail[locale]}</p><div className="mt-10 rounded-2xl border border-[#e6dcc8] bg-[#fbf8f1] p-6"><p className="text-xs font-bold tracking-wide text-[#8f7040]">{t.status}</p><p className="mt-2 text-xs leading-6 text-slate-600">{t.statusText}</p></div><Link href={"/"+locale+"#sections"} className="focus mt-9 inline-flex rounded-full bg-[#10233f] px-6 py-3 text-xs text-white hover:bg-[#1d3b60]">← {t.back}</Link></div></section><Footer locale={locale}/></main>;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { locale: rawLocale, slug } = await params;
+  if (!locales.includes(rawLocale as Locale)) return {};
+  const locale = rawLocale as Locale;
+  const section = sections.find((item) => item.slug === slug);
+  if (!section) return {};
+  return {
+    title: section.title[locale],
+    description: section.summary[locale],
+    alternates: {
+      canonical: "/" + locale + "/sections/" + slug,
+      languages: {
+        uz: "/uz/sections/" + slug,
+        en: "/en/sections/" + slug,
+        ru: "/ru/sections/" + slug
+      }
+    }
+  };
+}
+
+export default async function SectionPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+  const p = await params;
+  if (!locales.includes(p.locale as Locale)) notFound();
+  const locale = p.locale as Locale;
+  const section = sections.find((item) => item.slug === p.slug);
+  if (!section) notFound();
+  const t = copy[locale];
+
+  return (
+    <main id="main-content">
+      <div className="bg-[#091b31] text-white">
+        <Header locale={locale} />
+        <section className="hero-grid relative overflow-hidden py-20 md:py-28">
+          <div className="pointer-events-none absolute -right-32 top-0 h-[480px] w-[480px] rounded-full border border-[#d7b77d]/20" />
+          <div className="shell relative">
+            <Link href={"/" + locale + "#sections"} className="focus text-xs text-white/55 hover:text-white">← {t.back}</Link>
+            <p className="eyebrow mt-14">INTERNATIONAL AREA · {section.number}</p>
+            <h1 className="display mt-6 max-w-4xl text-5xl leading-[1.05] md:text-7xl">{section.title[locale]}</h1>
+            <p className="mt-7 max-w-2xl text-sm leading-8 text-white/60 md:text-base">{section.summary[locale]}</p>
+          </div>
+        </section>
+      </div>
+      <section className="shell py-12 md:py-16"><SectionVisual slug={section.slug} /></section>
+      <section className="shell grid gap-12 pb-20 md:grid-cols-[.65fr_1.35fr] md:pb-28">
+        <div><p className="eyebrow">{section.category[locale]}</p><p className="display mt-4 text-7xl text-[#c8a66a]">{section.number}</p></div>
+        <div className="max-w-3xl">
+          <h2 className="display text-3xl md:text-4xl">{t.overview}</h2>
+          <p className="mt-6 text-sm leading-8 text-slate-600">{section.detail[locale]}</p>
+          <div className="mt-12">
+            <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+              <div><p className="eyebrow">SOURCE DIRECTORY</p><h3 className="display mt-3 text-2xl md:text-3xl">{t.sourceHeading}</h3></div>
+              <p className="max-w-xs text-xs leading-6 text-slate-500">{t.sourceText}</p>
+            </div>
+            <div className="mt-6 grid gap-4">
+              {section.sources.map((source) => (
+                <article key={source.url} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_12px_35px_rgba(16,35,63,.04)]">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="text-[9px] font-bold tracking-[.18em] text-[#a17b40]">
+                      {source.status === "archive" ? t.archive : source.status === "upcoming" ? t.upcoming : t.reference}
+                    </span>
+                    <time className="text-[10px] text-slate-400">{source.date}</time>
+                  </div>
+                  <h4 className="mt-4 text-base font-semibold text-[#10233f]">{source.title[locale]}</h4>
+                  <p className="mt-2 text-xs leading-6 text-slate-500">{source.description[locale]}</p>
+                  <a href={source.url} target="_blank" rel="noopener noreferrer" className="focus mt-5 inline-flex items-center gap-2 rounded-full border border-[#c8a66a]/60 px-4 py-2.5 text-[10px] font-semibold text-[#89652e] transition hover:bg-[#10233f] hover:text-white">
+                    {t.openSource} <span aria-hidden="true">↗</span>
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+          <div className="mt-10 rounded-2xl border border-[#e6dcc8] bg-[#fbf8f1] p-6">
+            <p className="text-xs leading-6 text-slate-600">{t.note}</p>
+          </div>
+          <Link href={"/" + locale + "#sections"} className="focus mt-9 inline-flex rounded-full bg-[#10233f] px-6 py-3 text-xs text-white hover:bg-[#1d3b60]">← {t.back}</Link>
+        </div>
+      </section>
+      <Footer locale={locale} />
+    </main>
+  );
 }
