@@ -1,13 +1,15 @@
 export type Locale = "uz" | "en" | "ru";
 type Localized = Record<Locale, string>;
 export type SourceItem = { title: Localized; date: string; description: Localized; url: string; status?: "archive" | "upcoming" | "reference" };
-export type StaffItem = { name: string; title: Localized; email?: string };\nexport type PortalSection = {
+export type StaffItem = { name: string; title: Localized; email?: string };
+export type PortalSection = {
   slug: string;
   number: string;
   title: Localized;
   summary: Localized;
   category: Localized;
   detail: Localized;
+  staff?: StaffItem[];
   sources: SourceItem[];
 };
 
